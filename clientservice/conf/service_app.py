@@ -10,6 +10,7 @@ from clientservice.conf.config_logger_setup import setup_config_logger
 from clientservice.session.interfaces import DBInterface
 
 from clientservice.service_apis.ping import Ping
+from clientservice.service_apis.client_details import ClientDetails
 
 close_old_connections()
 init_pool()
@@ -27,7 +28,8 @@ setup_config_logger(app)
 
 app.logger.info("Setting up Resources")
 
-api.add_resource(Ping,'/clientservice/ping/')
+api.add_resource(Ping, '/clientservice/ping/')
+api.add_resource(ClientDetails, '/clientservice/clientdetails/')
 
 app.logger.info("Resource setup done")
 
