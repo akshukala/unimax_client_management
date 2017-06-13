@@ -3,7 +3,8 @@ import json
 from flask import current_app as app
 from flask import request
 from clientservice.utils.resource import Resource
-from clientservice.service_api_handlers import get_client_details_handler
+from clientservice.service_api_handlers import (get_client_details_handler,
+                                                post_client_details_handler)
 
 
 class ClientDetails(Resource):
@@ -32,9 +33,10 @@ class ClientDetails(Resource):
 #         app.logger.debug('Received farmer update request: %s',
 #                          request.json)
 #         return put_farmer_details_handler.handle_request(request.json)
-# 
-#     def post(self):
-#         app.logger.debug(request.__dict__)
-#         app.logger.debug('Received farmer creation request: %s',
-#                          request.json)
-#         return post_farmer_details_handler.handle_request(request.json)
+
+
+    def post(self):
+        app.logger.debug(request.__dict__)
+        app.logger.debug('Received farmer creation request: %s',
+                         request.json)
+        return post_client_details_handler.handle_request(request.json)
