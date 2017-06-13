@@ -11,6 +11,7 @@ from clientservice.session.interfaces import DBInterface
 
 from clientservice.service_apis.ping import Ping
 from clientservice.service_apis.client_details import ClientDetails
+from clientservice.service_apis.product_catalog import ProductCatalog,ProductByCategories
 
 close_old_connections()
 init_pool()
@@ -30,6 +31,8 @@ app.logger.info("Setting up Resources")
 
 api.add_resource(Ping, '/clientservice/ping/')
 api.add_resource(ClientDetails, '/clientservice/clientdetails/')
+api.add_resource(ProductCatalog, '/clientservice/products_categories/')
+api.add_resource(ProductByCategories, '/clientservice/product_by_categories/')
 
 app.logger.info("Resource setup done")
 
