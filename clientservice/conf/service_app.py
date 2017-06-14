@@ -11,7 +11,11 @@ from clientservice.session.interfaces import DBInterface
 
 from clientservice.service_apis.ping import Ping
 from clientservice.service_apis.client_details import ClientDetails
-from clientservice.service_apis.product_catalog import ProductCatalog,ProductByCategories
+from clientservice.service_apis.client_comments import ClientComments
+from clientservice.service_apis.product_catalog import ProductCatalog, ProductByCategories
+from clientservice.service_apis.client_tags import ClientTags
+from clientservice.service_apis.schedule_call import ScheduleCall
+from clientservice.service_apis.bank_details import UniBankDetails
 
 close_old_connections()
 init_pool()
@@ -31,9 +35,12 @@ app.logger.info("Setting up Resources")
 
 api.add_resource(Ping, '/clientservice/ping/')
 api.add_resource(ClientDetails, '/clientservice/clientdetails/')
+api.add_resource(ClientComments, '/clientservice/clientcomments/')
 api.add_resource(ProductCatalog, '/clientservice/products_categories/')
 api.add_resource(ProductByCategories, '/clientservice/product_by_categories/')
-
+api.add_resource(ClientTags, '/clientservice/tags/')
+api.add_resource(ScheduleCall, '/clientservice/scheduleCalls/')
+api.add_resource(UniBankDetails, '/clientservice/bank_details/')
 app.logger.info("Resource setup done")
 
 if __name__ == '__main__':
