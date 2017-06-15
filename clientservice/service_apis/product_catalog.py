@@ -21,6 +21,25 @@ class ProductCatalog(Resource):
              'errorMessage': "Category not found"
             }
 
+    def post(self):
+        request_data = request.get_json(force=True)
+        try:
+            Product.objects.get_or_create(product_name = str(request_data['p_name']),
+                        product_code = str(request_data['p_code']),
+                        category = ProductCategory.objects.get(id=int(request_data['p_category'])),
+                        mrp = float(request_data['p_mrp']),
+                        selling_price = float(request_data['p_sellingprice']),
+                        weight = float(request_data['p_weight']),
+                        gst = str(request_data['p_gst']),
+                        description = str(request_data['p_desc']))
+
+            return {"responseCode":"200",
+                    "Message":"Product Successfully Added"}
+        except:
+            return {"responseCode":"400",
+                    "Message":"Something went wrong"}
+        
+
 class ProductByCategories(Resource):
     def get(self):
         category_id = request.args.get('category_id')
@@ -41,3 +60,4 @@ class ProductByCategories(Resource):
              'errorCode': 400,
              'errorMessage': "Product not found"
             }
+        
