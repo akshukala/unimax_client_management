@@ -10,6 +10,7 @@ from clientservice.conf.config_logger_setup import setup_config_logger
 from clientservice.session.interfaces import DBInterface
 
 from clientservice.service_apis.ping import Ping
+from clientservice.service_apis.autocomplete import Autocomplete
 from clientservice.service_apis.client_details import ClientDetails
 from clientservice.service_apis.client_comments import ClientComments
 from clientservice.service_apis.product_catalog import ProductCatalog, ProductByCategories
@@ -34,6 +35,7 @@ setup_config_logger(app)
 app.logger.info("Setting up Resources")
 
 api.add_resource(Ping, '/clientservice/ping/')
+api.add_resource(Autocomplete, '/clientservice/autocomplete/')
 api.add_resource(ClientDetails, '/clientservice/clientdetails/')
 api.add_resource(ClientComments, '/clientservice/clientcomments/')
 api.add_resource(ProductCatalog, '/clientservice/products_categories/')

@@ -185,7 +185,7 @@ def get_client_datails(data):
 
 
 def search_client_details(data):
-    app.logger.info("Received Search Farmer Request")
+    app.logger.info("Received Search Client Request")
     if not data.get('search_type') and not data.get('search_term'):
         return {
             'errorCode': 503,
