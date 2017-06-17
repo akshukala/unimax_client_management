@@ -1,5 +1,6 @@
 from django.db.models import Q
 from uni_db.client_erp.models import BillingAddress
+from uni_db.order_management.models import Order
 
 REGISTRY = {}
 
@@ -13,7 +14,7 @@ def register(kind):
 
 
 @register("area")
-def ac_state(data):
+def ac_area(data):
     query = data.get("term", None)
 
     if query:
@@ -23,6 +24,23 @@ def ac_state(data):
         areas = []
 
     return list(set(areas))
+
+
+@register("order")
+def ac_order(data):
+    query = data.get("term", None)
+    response = []
+    if query:
+        try:
+            orders = Order.objects.filter(sales_order_id=query)
+            response = [{
+                "SalesOrderId ": str(order.sales_order_id),
+                "value": order.sales_order_id,
+                "status": order.status,
+                } for order in orders]
+        except ValueError:
+            pass
+    return response
 
 
 def handle_request(kind, data):

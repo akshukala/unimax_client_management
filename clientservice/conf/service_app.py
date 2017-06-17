@@ -13,7 +13,9 @@ from clientservice.service_apis.ping import Ping
 from clientservice.service_apis.autocomplete import Autocomplete
 from clientservice.service_apis.client_details import ClientDetails
 from clientservice.service_apis.client_comments import ClientComments
-from clientservice.service_apis.product_catalog import ProductCatalog, ProductByCategories
+from clientservice.service_apis.csr_details import CSRDetails
+from clientservice.service_apis.product_catalog import ProductCatalog,\
+                                    CatalogAutocomplete, ProductByCategories
 from clientservice.service_apis.client_tags import ClientTags
 from clientservice.service_apis.schedule_call import ScheduleCall
 from clientservice.service_apis.bank_details import UniBankDetails
@@ -38,6 +40,8 @@ api.add_resource(Ping, '/clientservice/ping/')
 api.add_resource(Autocomplete, '/clientservice/autocomplete/')
 api.add_resource(ClientDetails, '/clientservice/clientdetails/')
 api.add_resource(ClientComments, '/clientservice/clientcomments/')
+api.add_resource(CSRDetails, '/clientservice/csrdetails/')
+api.add_resource(CatalogAutocomplete, '/clientservice/catalogcomplete/')
 api.add_resource(ProductCatalog, '/clientservice/products_categories/')
 api.add_resource(ProductByCategories, '/clientservice/product_by_categories/')
 api.add_resource(ClientTags, '/clientservice/tags/')

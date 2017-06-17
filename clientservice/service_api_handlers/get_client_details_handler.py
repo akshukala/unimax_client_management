@@ -2,7 +2,7 @@ from uni_db.client_erp.models import (Client, ClientComment, BillingAddress,
                                       ShippingAddress, AddCall, CallTag,
                                       ClientMobile, ClientWhatsapp,
                                       ClientLandline)
-# from DBLayer.order_management.models import Order, OrderItem
+from uni_db.order_management.models import Order, OrderItem
 from clientservice.utils.utility_functions import (get_str_datetime)
 from django.db.models import Q
 from django.forms.models import model_to_dict
@@ -81,39 +81,38 @@ def get_client_datails(data):
         except:
             pass
  
-#         fdata["orders"] = []
-#         orders = Order.objects.filter(owner=farmer).order_by('-created_on')
-#         for order in orders:
-#             order_info = {
-#                 "sales_order_id": order.sales_order_id,
-#                 "created_on": get_str_datetime(order.created_on),
-#                 "advance_payment": order.advance_payment,
-#                 "total_discount": order.total_discount,
-#                 "cod_amount": order.cod_amount,
-#                 "grand_total": order.grand_total,
-#                 "status": order.status,
-#             }
-#             try:
-#                 if order.entered_by:
-#                     order_info["entered_by"] = order.entered_by.get_full_name()
-#             except:
-#                 pass
-#             fdata["orders"].append(order_info)
-#  
-#         valid_orders = orders.exclude(status__in=['CANCELLED', 'ERROR']).exclude(
-#                 status__startswith="EDITED")
-#         fdata["order_count"] = len(valid_orders)
-#         if orders and orders[0].created_on:
-#             last_order = orders[0]
-#             today = datetime.today()
-#             last_active = abs((today.date() - last_order.created_on.date())).days
-#             if last_active == 0:
-#                 fdata["last_active"] = "Today"
-#             elif last_active < 31:
-#                 fdata["last_active"] = str(last_active) + " Days"
-#             else:
-#                 fdata["last_active"] = str(int(round(last_active/30.0))) + " Month"
- 
+        cdata["orders"] = []
+        orders = Order.objects.filter(owner=client).order_by('-created_on')
+        for order in orders:
+            order_info = {
+                "sales_order_id": order.sales_order_id,
+                "created_on": get_str_datetime(order.created_on),
+                "advance_payment": order.advance_payment,
+                "total_discount": order.total_discount,
+                "cod_amount": order.cod_amount,
+                "grand_total": order.grand_total,
+                "status": order.status,
+            }
+            try:
+                if order.entered_by:
+                    order_info["entered_by"] = order.entered_by.get_full_name()
+            except:
+                pass
+            cdata["orders"].append(order_info)
+
+        valid_orders = orders.exclude(status__in=['CANCELLED', 'ERROR'])
+        cdata["order_count"] = len(valid_orders)
+        if orders and orders[0].created_on:
+            last_order = orders[0]
+            today = datetime.today()
+            last_active = abs((today.date() - last_order.created_on.date())).days
+            if last_active == 0:
+                cdata["last_active"] = "Today"
+            elif last_active < 31:
+                cdata["last_active"] = str(last_active) + " Days"
+            else:
+                cdata["last_active"] = str(int(round(last_active/30.0))) + " Month"
+
         comments = [
             {
                 "comment": c.comment,
@@ -230,6 +229,6 @@ def search_client_details(data):
         if client.billing_addressid:
             b = BillingAddress.objects.get(id=client.billing_addressid)
             c["address"] = model_to_dict(b)
-            c["order_count"] = '2'
+            c["order_count"] = Order.objects.filter(owner=client).exclude(status="CANCELLED").count()
         clientdata.append(c)
     return clientdata
