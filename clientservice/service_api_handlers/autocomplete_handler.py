@@ -29,7 +29,6 @@ def ac_area(data):
 @register("order")
 def ac_order(data):
     query = data.get("term", None)
-    response = []
     if query:
         try:
             orders = Order.objects.filter(sales_order_id=query)
@@ -40,6 +39,22 @@ def ac_order(data):
                 } for order in orders]
         except ValueError:
             pass
+    return response
+
+
+@register("name")
+def ac_name(data):
+    query = data.get("term", None)
+    if query:
+        clients = Order.objects.filter(owner__client_name__istartswith=query
+                                       ).values_list('owner__client_name',
+                                                     'owner__client_id'
+                                                     ).distinct()
+        response = [{'client_name': order[0],
+                     'client_id': order[1]
+                     }for order in clients]
+    else:
+        response = []
     return response
 
 

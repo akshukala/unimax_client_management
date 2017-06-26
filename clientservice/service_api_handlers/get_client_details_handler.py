@@ -122,44 +122,17 @@ def get_client_datails(data):
             for c in ClientComment.objects.filter(client=client)
         ]
         cdata["comments"] = comments
-#         related_orders = Order.objects.filter(shipping_address__post_office=str(ship_ads[0].post_office)
-#                                               ).exclude(status='RETURN COMPLETED'
-#                                                         ).exclude(status='CANCELLED'
-#                                                                   ).order_by('-sales_order_id')[:5]
-#         farmer_data = {}
-#          
-#         if len(related_orders) < 5 and len(related_orders) >= 0:
-#             farmer_data['order'] = [{
-#                                      'order_id': str(ord.sales_order_id),
-#                                      'name': str((ord.owner.first_name).title()) + \
-#                                      " " + str((ord.owner.middle_name).title()) + \
-#                                      " " + str((ord.owner.last_name).title()),
-#                                      'status': str(ord.status),
-#                                      'order_item': [str(item.item_name).split('-')[1]
-#                                                     for item in
-#                                                     OrderItem.objects.filter(order=ord)]
-#                                      }for ord in related_orders]
-#             farmer_data['farmer'] = [{
-#                                       'farmer_id': str(sa.farmer.farmer_id),
-#                                       'name': str((sa.farmer.first_name).title()) + \
-#                                       " " + str((sa.farmer.middle_name).title()) + \
-#                                       " " + str((sa.farmer.last_name).title())
-#                                       }for sa in
-#                                      ShippingAddress.objects.filter
-#                                      (post_office=ship_ads[0].post_office
-#                                       ).order_by('-id')[:5]]
-#         else:
-#             farmer_data['order'] = [{
-#                                      'order_id': str(ord.sales_order_id),
-#                                      'name': str((ord.owner.first_name).title()) + \
-#                                      " " + str((ord.owner.middle_name).title()) + \
-#                                      " " + str((ord.owner.last_name).title()),
-#                                      'status': str(ord.status),
-#                                      'order_item': [str(item.item_name).split('-')[1]
-#                                                     for item in
-#                                                     OrderItem.objects.filter(order=ord)]
-#                                      }for ord in related_orders]
-#         fdata['related_data'] = farmer_data
+        related_clients = ShippingAddress.objects.filter(area=str(ship_ads.area))[:7]
+        client_data = {}
+        if len(related_clients) <= 5 and len(related_clients) >= 0:
+            client_data['clients'] = [{
+                                     'client_id': str(cl.client.client_id),
+                                     'name': str((cl.client.client_name
+                                                  ).title()),
+                                     }for cl in related_clients]
+        else:
+            client_data['clients'] = "Not Available"
+        cdata['related_data'] = client_data
         call_list = []
         calls_data = AddCall.objects.filter(client=client)
         for calldata in calls_data:
